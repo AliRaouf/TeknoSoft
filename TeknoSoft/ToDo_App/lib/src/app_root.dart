@@ -11,7 +11,7 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SqlCubit()..loadTasks(),
+      create: (context) => SqlCubit()..loadTasks(context),
       child: MaterialApp(
         theme: ThemeData(
             appBarTheme: AppBarTheme(backgroundColor: Colors.transparent)),

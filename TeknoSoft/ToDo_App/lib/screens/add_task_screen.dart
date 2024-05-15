@@ -22,6 +22,10 @@ class AddTaskScreen extends StatelessWidget {
     return BlocConsumer<SqlCubit, SqlState>(
       listener: (context, state) {
         if (state is AddTaskSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Task Added Successfully'),
+              ));
           Navigator.pop(context);
         }
       },
@@ -31,6 +35,15 @@ class AddTaskScreen extends StatelessWidget {
               FloatingActionButtonLocation.centerFloat,
           backgroundColor: Color(0xff232425),
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             title: Text(
               "Add Tasks",
               style: GoogleFonts.robotoCondensed(color: Color(0xfffefefe)),
@@ -209,14 +222,24 @@ class AddTaskScreen extends StatelessWidget {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)))),
                       onPressed: () async {
-                        await cubit.addTask(Todo(
-                            name: nameController.text,
-                            time:
-                                '${timeFromController.text} : ${timeToController.text}',
-                            date: dateController.text,
-                            type: typeController.text,
-                            favorite: 'False',
-                            status: 'Waiting'));
+                        if(nameController.text.isEmpty ||timeFromController.text.isEmpty||timeToController.text.isEmpty||typeController.text.isEmpty||dateController.text.isEmpty){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Please fill all the data'),
+                              ));
+                        }else {
+                          await cubit.addTask(
+                              Todo(
+                                  name: nameController.text,
+                                  time:
+                                  '${timeFromController
+                                      .text} : ${timeToController.text}',
+                                  date: dateController.text,
+                                  type: typeController.text,
+                                  favorite: 'False',
+                                  status: 'Waiting'),
+                              context);
+                        }
                       },
                       child: Text(
                         "Add",
