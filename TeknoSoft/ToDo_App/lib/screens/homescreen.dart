@@ -1,15 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/bloc/sql/sql_cubit.dart';
+import 'package:todo_app/screens/tasks_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'add_task_screen.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    SqlCubit.get(context).loadTasks();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    return Scaffold(floatingActionButton: FloatingActionButton(child:
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(child:
     Container(
         width: w,
         height: h,
@@ -19,12 +35,14 @@ class HomeScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(999),
           gradient: LinearGradient(
             stops: [0, 1],
-            colors: [Color(0xFF00458e), Color(0xFF000328)],
+            colors: [ Color(0xFF8711C1),Color(0xFF2472FC)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         )),
-        shape: CircleBorder(), onPressed: () {},
+        shape: CircleBorder(), onPressed: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AddTaskScreen(),));
+      },
     ),
       backgroundColor: Color(0xff232425),
       appBar: AppBar(
@@ -35,7 +53,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24),
+        padding: EdgeInsets.symmetric(vertical: h*0.02, horizontal: w*0.05),
         child: Column(
           children: [
             Row(
@@ -71,111 +89,125 @@ class HomeScreen extends StatelessWidget {
               height: h*0.31,
               margin: EdgeInsets.only(top: h*0.04),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: EdgeInsets.symmetric(horizontal: w*0.07),
                 child: Column(
                   children: [
-                    Container(
-                      height: h*0.09,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.light_mode,
-                            color: Color(0xff56a2ff),
+                    GestureDetector(onTap:() {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TasksScreen(),));
+                    },
+                      child: Container(color: Colors.transparent,
+                        height: h*0.09,width: w,
+                        child: GestureDetector(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.light_mode,
+                                color: Color(0xff56a2ff),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: w*0.03),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "My Day",
+                                      style: GoogleFonts.robotoCondensed(
+                                          color: Color(0xff56a2ff),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16),
+                                    ),
+                                    Text(
+                                      "7 Tasks",
+                                      style: GoogleFonts.robotoCondensed(
+                                          color: Color(0xff8e8e8e),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "My Day",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff56a2ff),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  "7 Tasks",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff8e8e8e),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ),
                     Divider(),
-                    Container(
-                      height: h*0.09,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_month_outlined,
-                            color: Color(0xff56a2ff),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Upcoming",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff56a2ff),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  "12 Tasks",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff8e8e8e),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
-                                ),
-                              ],
+                    GestureDetector(onTap:() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TasksScreen(),));
+                    },
+                      child: Container(color: Colors.transparent,
+                        height: h*0.09,width: w,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_month_outlined,
+                              color: Color(0xff56a2ff),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(left: w*0.03),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Upcoming",
+                                    style: GoogleFonts.robotoCondensed(
+                                        color: Color(0xff56a2ff),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    "12 Tasks",
+                                    style: GoogleFonts.robotoCondensed(
+                                        color: Color(0xff8e8e8e),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     Divider(),
-                    Container(
-                      height: h*0.09,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Color(0xff56a2ff),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Important",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff56a2ff),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  "3 Tasks",
-                                  style: GoogleFonts.robotoCondensed(
-                                      color: Color(0xff8e8e8e),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14),
-                                ),
-                              ],
+                    GestureDetector(onTap:() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TasksScreen(),));
+                    },
+                      child: Container(color: Colors.transparent,
+                        height: h*0.09,width: w,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Color(0xff56a2ff),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(left: w*0.03),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Important",
+                                    style: GoogleFonts.robotoCondensed(
+                                        color: Color(0xff56a2ff),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    "3 Tasks",
+                                    style: GoogleFonts.robotoCondensed(
+                                        color: Color(0xff8e8e8e),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -190,7 +222,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Container(
                     width: w * 0.425,
-                    height: h * 0.175,
+                    height: h * 0.18,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0,horizontal: 24),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +257,7 @@ class HomeScreen extends StatelessWidget {
                     )),
                 Container(
                     width: w * 0.425,
-                    height: h * 0.175,
+                    height: h * 0.18,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0,horizontal: 24),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +300,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Container(
                     width: w * 0.425,
-                    height: h * 0.175,
+                    height: h * 0.18,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0,horizontal: 24),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,7 +308,7 @@ class HomeScreen extends StatelessWidget {
                           Icon(Icons.work,size: 24,color: Color(0xffFEFEFE).withOpacity(0.5),),
                           SizedBox(height: h*0.05,),
                           Text(
-                            "Learning",
+                            "Work",
                             style: GoogleFonts.robotoCondensed(
                                 color: Color(0xffFEFEFE),
                                 fontWeight: FontWeight.w400,
@@ -303,7 +335,7 @@ class HomeScreen extends StatelessWidget {
                     )),
                 Container(
                     width: w * 0.425,
-                    height: h * 0.175,
+                    height: h * 0.18,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0,horizontal: 24),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start,

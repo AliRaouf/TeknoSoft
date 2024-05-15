@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/sql/sql_cubit.dart';
 
 import '../screens/homescreen.dart';
 
@@ -8,10 +10,14 @@ class AppRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.transparent)),
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return BlocProvider(
+      create: (context) => SqlCubit()..loadTasks(),
+      child: MaterialApp(
+        theme: ThemeData(
+            appBarTheme: AppBarTheme(backgroundColor: Colors.transparent)),
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     );
   }
 }

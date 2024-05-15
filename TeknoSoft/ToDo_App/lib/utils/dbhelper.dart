@@ -12,21 +12,21 @@ class DBHelper {
       join(await getDatabasesPath(), _dbName), version: 1,
       onCreate: (db, version) {
         db.execute(
-            'create table $_tableName(id integer primary key autoincrement,name text not null,time text not null,type text not null,favorite text not null,status text not null)');
+            'create table $_tableName(id integer primary key autoincrement,name text not null,time text not null,date text not null,type text not null,favorite text not null,status text not null)');
       },);
     return database;
   }
 
-  static insertPerson(Todo task) async {
+  static insertTask(Todo task) async {
     final db = await _database();
     db.insert(_tableName, task.toMap());
   }
-  static updatePerson(Todo task) async {
+  static updateTask(Todo task) async {
     final db = await _database();
     db.update(_tableName, task.toMap(), where: 'id = ?',
         whereArgs: [task.id]);
   }
-  static deletePerson(Todo task) async {
+  static deleteTask(Todo task) async {
     final db = await _database();
     db.delete(_tableName, where: 'id = ?',
         whereArgs: [task.id ]);
@@ -36,7 +36,7 @@ class DBHelper {
     final List<Map<String, dynamic>> maps = await db.query(_tableName);
     return List.generate(maps.length, (index) {
       return
-        Todo(id: maps[index]['id'], name: '', time: '', type: '', favorite: '', status: '');
+        Todo(id: maps[index]['id'], name: maps[index]['name'], time: maps[index]['time'],date: maps[index]['date'], type: maps[index]['type'], favorite: maps[index]['favorite'], status: maps[index]['status']);
     });
   }
 }
