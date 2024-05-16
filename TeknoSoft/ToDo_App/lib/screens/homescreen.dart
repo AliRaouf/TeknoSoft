@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 20,
                           child: CircularProgressIndicator(
                             color: Color(0xff3c72af),
-                            value: ((cubit.todayTasks!.where((element) => element.status=='Done').length)/(cubit.todayTasks!.length)),
+                            value: ((cubit.todayTasks!.where((element) => element.status=='Done').length)/(cubit.todayTasks!.length)).isNaN ? 0 : ((cubit.todayTasks!.where((element) => element.status=='Done').length)/(cubit.todayTasks!.length)).isInfinite ? 0 :((cubit.todayTasks!.where((element) => element.status=='Done').length)/(cubit.todayTasks!.length)),
                             backgroundColor: Colors.grey,
                           )),
                       Text(

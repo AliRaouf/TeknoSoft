@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "632009100872",
+    "project_id": "shoply-d9ed1",
+    "storage_bucket": "shoply-d9ed1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632009100872:android:34276bc546bd7eff22527d",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoHLjNDIvQKrEw5Ogwh_G-Fd_mxh6jnbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
