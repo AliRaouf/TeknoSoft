@@ -1,6 +1,7 @@
 import 'package:e_commerce/bloc/store/store_cubit.dart';
 import 'package:e_commerce/screens/checkout_screen.dart';
 import 'package:e_commerce/screens/home_screen.dart';
+import 'package:e_commerce/screens/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,12 +40,13 @@ class _ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
                     if(items!=null || items!.isNotEmpty){
                       for(var i in items!){
                         try {
-                          cubit.addItemToPurchase(i);
+                          i.addAll({"status":'Pending'});
+                          cubit.addItemToPurchase(i).then((value) =>cubit.deleteFromCart(context, i['name']));
                         } on Exception catch (e) {
                           print(e);
                         }
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
                     }
                   },
                   bColor: Color(0xff19c463),

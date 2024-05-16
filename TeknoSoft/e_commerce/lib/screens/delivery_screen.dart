@@ -39,7 +39,7 @@ class DeliveryScreen extends StatelessWidget {
                     } else if (snapshot.hasData) {
                       items = snapshot.data;
                       return items!.isEmpty
-                          ? Text(("The Cart is Empty"),
+                          ? Text(("There are no purchases done"),
                           textAlign: TextAlign.center,
                           style: GoogleFonts.openSans(
                               fontSize: 14, color: Color(0xff232425)))
@@ -94,7 +94,7 @@ class DeliveryScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            items![index]['status'],
+                                            items?[index]['status']??"",
                                             style: GoogleFonts
                                                 .openSans(
                                                 color: Color(

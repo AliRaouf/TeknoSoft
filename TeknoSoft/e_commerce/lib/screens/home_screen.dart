@@ -22,8 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 @override
   void initState() {
-    StoreCubit.get(context).getCartStream();
     UserCubit.get(context).receiverUserData();
+    StoreCubit.get(context).getCartStream();
     super.initState();
   }
   @override
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: StreamBuilder(
-                stream: cubit.itemStream,
+                stream: cubit.getItemStream(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     CircularProgressIndicator();
@@ -231,13 +231,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           );
                   } else {
-                    return Text(("Error"),
+                    return Text((snapshot.error.toString()),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
                             fontSize: 14, color: Color(0xff232425)));
                   }
                   return Text(
-                    ("Error"),
+                    (snapshot.error.toString()),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                         fontSize: 14, color: Color(0xff232425)),

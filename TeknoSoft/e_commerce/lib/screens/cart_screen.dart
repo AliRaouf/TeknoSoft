@@ -50,9 +50,6 @@ class _CartScreenState extends State<CartScreen> {
                           ));
                       cubit.total = 0;
                     }
-                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //   content: Text('Item Added to Cart'),
-                    // ));
                   },
                   bColor: Color(0xff19c463),
                   borderColor: Colors.transparent),
@@ -153,7 +150,9 @@ class _CartScreenState extends State<CartScreen> {
                                                       ),
                                                     ),
                                                     IconButton(
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          cubit.deleteFromCart(context, items![index]['name']);
+                                                        },
                                                         icon:
                                                             Icon(Icons.delete))
                                                   ],

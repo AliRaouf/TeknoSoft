@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -13,8 +14,8 @@ class StoreCubit extends Cubit<StoreState> {
   Stream? cartStream;
   Stream? deliveryStream;
   int total = 0;
-  getItemStream() {
-    itemStream = FirebaseFirestore.instance
+  Stream<List<Map<String, dynamic>>> getItemStream() {
+    return FirebaseFirestore.instance
         .collection('items')
         .snapshots()
         .map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()).toList());
@@ -71,5 +72,17 @@ class StoreCubit extends Cubit<StoreState> {
     } on Exception catch (e) {
       print(e);
     }
+  }
+  deleteFromCart(BuildContext context,String name) {
+    FirebaseFirestore.instance
+        .collection("cart")
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("userTest")
+        .where('name',isEqualTo: name)
+        .get().then((QuerySnapshot querySnapshot) {
+      var doc = querySnapshot.docs.first;
+      doc.reference.delete().then((value) => emit(DeleteFromCartSuccess()))
+          .catchError((error)=>emit(DeleteFromCartFailure()));
+    });
   }
   }
